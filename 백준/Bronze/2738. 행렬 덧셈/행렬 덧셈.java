@@ -39,7 +39,7 @@ public class Main {
             for(int j = 0; j<M; j++) {
                 System.out.printf(arr1[i][j] + " ");
             }
-            System.out.println("");
+            System.out.println();
         }//for
 
 
