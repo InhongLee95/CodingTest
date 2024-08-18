@@ -2,62 +2,61 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-
-    static boolean[] check;
+    static int N, M;
     static int[][] arr;
-    static int A;
-    static int B;
-    static int count;
+    static boolean[] check;
+    static int answer = 0;
+
 
     public static void main(String[] args) throws IOException {
-
-        // check 배열 생성
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        A = Integer.parseInt(br.readLine());
-        check = new boolean[A + 1];
+        N = Integer.parseInt(br.readLine());
+        M = Integer.parseInt(br.readLine());
+        StringTokenizer st;
 
-        // count 값 초기화
-        count = 0;
+        arr = new int[N+1][N+1];
+        check = new boolean[N+1];
 
-        // 입력값 배열 생성
-        B = Integer.parseInt(br.readLine());
-        arr = new int[A + 1][A + 1];
 
-        // 배열에 값 입력
-        for (int i = 0; i < B; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
+        //
+        for (int i = 0; i<M; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-            arr[x][y] = 1;
-            arr[y][x] = 1;
+            arr[a][b] = arr[b][a] = 1;
         }
 
-        // 시작 노드를 1로 설정
         bfs(1);
-        
-        // 시작 노드 -1 로 제외
-        System.out.println(count-1);
+
+        System.out.println(answer-1);
+
+
     }
 
-    public static void bfs(int start) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
 
-        while (!queue.isEmpty()) {
+    private static void bfs(int start) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+
+
+        while(!queue.isEmpty()) {
             int now = queue.poll();
 
-            if (!check[now]) {
-                count++;
+            if(!check[now]) {
+                answer++;
                 check[now] = true;
 
-                // bfs 원리
-                for (int i = 1; i <= A; i++) {
+                for (int i = 1; i <= N; i++) {
                     if (arr[now][i] == 1 && !check[i]) {
-                        queue.add(i);
+                        queue.offer(i);
                     }
                 }
-            }
-        }
+            }//if
+        }//while
+
+
     }
+
+
 }
