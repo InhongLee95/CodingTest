@@ -1,56 +1,59 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.util.*;
 
 public class Main {
 
 
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder(">");
+        StringBuilder sb = new StringBuilder("<");
 
-        
-        // N 값 입력
         String N = br.readLine();
-        
-        // 10 미만 숫자 0 추가
-        if(Integer.parseInt(N) < 10 ) N = N + "0";
-        
-        //  N값이랑 비교할 대상 선언
+
+        if(Integer.parseInt(N) < 10) {
+            N = N + "0";
+
+        }
+
         String check = N;
         int answer = 0;
 
 
-        while (true) {
-            sb.delete(0,sb.length());
-
-            char a =  check.charAt(0);
-            char b =  check.charAt(1);
 
 
-            int A = Character.getNumericValue(a);
-            int B = Character.getNumericValue(b);
+        while(true) {
+            sb.delete(0, sb.length());
+
+            char a = check.charAt(0);
+            char b = check.charAt(1);
+
+            int two = Character.getNumericValue(a);
+            int one = Character.getNumericValue(b);
+
+            int sum = two + one;
+
+            String tmp = String.valueOf(sum);
 
 
-            int sum = A+B;
-
-            String k =  String.valueOf(sum);
-
-
+            // sum 전 첫자리 수 문자 더하기
             sb.append(b);
-            if(k.length() < 2) sb.append(k.charAt(0));
-            else  sb.append(k.charAt(1));
 
+            //sum이 2자리 수 가 안되면 0 추가
+            if(tmp.length() < 2) sb.append(tmp.charAt(0));
+            else  sb.append(tmp.charAt(1));
 
+            //변경된 값 check 에 담기
             check = sb.toString();
+
+            // 찾는 횟수 카운트
             answer++;
 
-            if(check.equals(N)) break;
+            if(check.equals(N)) {
+                break;
+            }
 
-
-        }//while
+        }
 
 
         System.out.println(answer);
