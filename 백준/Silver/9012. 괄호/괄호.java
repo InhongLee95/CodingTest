@@ -1,41 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws Exception {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        String[] answer = new String[n];
 
-        for (int i = 0; i<n; i++) {
-            String str = br.readLine();
-
+        for(int i = 0; i<n; i++) {
             Stack<Character> stack = new Stack<>();
+            char[] arr = br.readLine().toCharArray();
 
-                for (int j = 0; j < str.length(); j++) {
-                    if (str.charAt(j) == '(') stack.push(str.charAt(j));
-                    else {
-                        if (stack.isEmpty()) {
-                            stack.push(str.charAt(j));
-                            break;
-                        }
-                        else stack.pop();
+            for(int j = 0; j<arr.length; j++) {
+                if(arr[j] =='(') {
+                    stack.push(arr[j]);
+                }
+                else {
+                    if(stack.isEmpty()) {
+                        stack.push(arr[j]);
+                        break;
                     }
-
-
-            }
-            if(stack.isEmpty()) answer[i] = "YES";
-            else answer[i] = "NO";
-        }
-
-        for (String output : answer) {
-            System.out.println(output);
-        }
+                    else {
+                        stack.pop();
+                    }
+                }
 
 
 
-    }
+            }//inner - for
+            if(stack.isEmpty()) System.out.println("YES");
+            else System.out.println("NO");
+
+        }//for
+
+
+
+    }//main
+
 }
