@@ -1,83 +1,84 @@
 import java.io.*;
 import java.util.*;
 
-
-
-
 public class Main {
 
+    public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        int T  = Integer.parseInt(br.readLine());
+        StringTokenizer st ;
+
+        // 테스트 수
+        int t = Integer.parseInt(br.readLine());
+
+        for(int k = 0; k<t; k++) {
+
+            // 지원자 점수
+            ArrayList<People> list = new ArrayList<>();
+
+            // 지원자 수
+            int p = Integer.parseInt(br.readLine());
 
 
-        // 테스트 횟수 지정
-        for(int i = 0; i<T; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
-            ArrayList<Point> list = new ArrayList<>();
-
-            int N = Integer.parseInt(st.nextToken());
 
 
-            // 리스트에 입력
-            for(int j = 0; j<N; j++) {
+            for(int i = 0; i<p; i++) {
                 st = new StringTokenizer(br.readLine(), " ");
+                int point = Integer.parseInt(st.nextToken());
+                int meeting = Integer.parseInt(st.nextToken());
 
-                int x = Integer.parseInt(st.nextToken());
-                int y = Integer.parseInt(st.nextToken());
-
-                list.add(new Point(x, y));
-
+                list.add(new People(point, meeting));
 
             }
 
+            // 서류 점수 기준으로 정렬
             Collections.sort(list);
 
-            // 서류성적이 제일 높은 0번째 사람은 합격
-            int answer = 1;
             // 0번째 기준으로 다음 합격자 체크
-            int min = list.get(0).y;
+            int base = list.get(0).meeting;
 
-            for(int j = 1; j<list.size(); j++) { // 서류 2등부터 시작
-                int tmpMin = list.get(j).y;
+            // 0번 은 자동합격이므로 1로 시작
+            int answer = 1;
 
-                if(tmpMin < min ) { // 이전의 최소 면접 점수보다 낮으면 통과
+            for(int i = 1; i<list.size(); i++) {
+                if(base > list.get(i).meeting) {
                     answer++;
-                    min = tmpMin; // 새 합격자 점수 기준으로 체크하기 위해 갱신
+                    base = list.get(i).meeting;
+
                 }
 
             }
 
             System.out.println(answer);
 
+        }//T for
 
 
-        }//for
+
+
+
+
 
     }
+
+
+
 }
 
+ class People implements Comparable<People> {
+    int point;
+    int meeting;
 
-class Point implements Comparable<Point> {
-    int x;
-    int y;
-
-    Point(int x, int y) {
-        this.x = x;
-        this.y = y;
+    People(int point, int meeting) {
+        this.point = point;
+        this.meeting = meeting;
     }
-
 
     @Override
-    public int compareTo(Point o) {
-        if(this.x > o.x) {
-            return 1;
-        }
-        else {
-            return -1;
-        }
-    }
-}// point
+    public int compareTo(People o) {
 
+        if(this.point > o.point) return 1;
+        else return -1;
+    }
+
+}
