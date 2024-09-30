@@ -1,65 +1,73 @@
 import java.io.*;
 import java.util.*;
 
-
-
-
 public class Main {
 
+    public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        StringTokenizer st ;
 
-        ArrayList<MeetingRoom> list = new ArrayList<>();
-        int N  = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
+        ArrayList<Time> list =new ArrayList<>();
 
-
-        // 리스트 입력
-        for(int i = 0; i<N; i++) {
+        for(int i = 0; i<n; i++) {
             st = new StringTokenizer(br.readLine(), " ");
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
 
-            list.add(new MeetingRoom(start, end));
+            list.add(new Time(s,e));
 
-
-        }//for
-
-        Collections.sort(list); //회의실을 종료 시간을 기준으로 정렬
-        int count = 0;
-        int time = 0;  //현재 시간
-        for (int i = 0; i < N; i++) {
-            //만약에 현재 시간이 i번째 회의 시작 시간보다 작거나 같으면 포함시킨다
-            if (time <= list.get(i).start) {
-                count++;
-                time = list.get(i).end;  //그리고 현재 시간은 i번째 회의가 끝난 시간이 된다
-            }
         }
-        System.out.print(count);
 
 
-    }// main
-}
+        Collections.sort(list);
+
+        // 첫 미팅은 무조건 시작
+        int answer = 1;
+
+        // 첫 미팅의 종료시간 부터 체크
+        int time = list.get(0).end;
+
+        for(int i = 1; i<list.size(); i++) {
+            if(time <= list.get(i).start) {
+                answer++;
+                // 매 회의 종료시간으로 time 기준 대입
+                time = list.get(i).end;
+            }
+
+        }
 
 
-class MeetingRoom implements Comparable<MeetingRoom> {
+
+    System.out.println(answer);
+
+    }//main
+
+
+
+}//main class
+
+class Time implements Comparable<Time> {
     int start;
     int end;
 
-    MeetingRoom(int start, int end) {
+    Time(int start, int end){
         this.start = start;
         this.end = end;
     }
 
-
     @Override
-    public int compareTo(MeetingRoom o) {
-        if(this.end == o.end) {
-            return this.start - o.start; // 오름 차순도 되고 내림차순도 된다
+    public int compareTo(Time o) {
+        if (this.end == o.end) {
+            return this.start - o.start;
         }
-        return this.end - o.end; //  this.end 값이 더 크면 오름차순으로 반환
+        else if(this.end > o.end) {
+            return 1;
+        }
+        else return -1;
     }
 
-}// point
+
+}
 
