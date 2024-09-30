@@ -1,87 +1,89 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int N, M, K;
+
+    static int n,tmp;
+    static int nowX, nowY;
     static int[][] arr;
     static boolean[][] check;
-    static int[] dirX = {1,-1,0,0};
-    static int[] dirY = {0,0,1,-1};
-    static int nowX, nowY;
-    static int count = 0;
-    static ArrayList<Integer> size;
-    static int tmp;
-
+    static int[] dirX= {0,0, -1, 1};
+    static int[] dirY= {1,-1, 0, 0};
 
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st ;
 
-        N = Integer.parseInt(br.readLine());
+        n = Integer.parseInt(br.readLine());
 
-        arr = new int[N][N];
-        check = new boolean[N][N];
-        size = new ArrayList<>();
+        arr = new int[n][n];
+        check = new boolean[n][n];
 
+        for(int i = 0; i<n; i++) {
+            String str = br.readLine();
+            char[] tmp = str.toCharArray();
 
-        // 배열 입력
-        for(int i = 0; i<N; i++) {
-            char[] temp = br.readLine().toCharArray();
-            for (int j = 0; j<N; j++) {
-                arr[i][j] = temp[j] - '0'; // '0' or '1' -> 숫자로 변환
+            for(int j =0; j<tmp.length; j++){
+                arr[i][j] = tmp[j] - '0';
+
             }
-        }// 배열 입력
+        }//for
+
+        int dange = 0;
 
 
-        //dfs 호출
-        for(int i = 0; i<N; i++ ) {
-            for(int j =0; j<N; j++) {
-                if(!check[i][j] && arr[i][j]==1) {
-                    tmp = 1; // 처음에 size1로 초기화한다. 해당 for문에서 호출된 dfs size+1
+        ArrayList<Integer> house = new ArrayList<>();
+        for(int i = 0; i< arr.length; i++) {
+            for (int j = 0; j< arr.length; j++) {
+                if(!check[i][j] && arr[i][j] == 1) {
+                    tmp = 0;
+
+                    dange++;
                     dfs(i, j);
-                    count++;
-                    size.add(tmp);
+                    house.add(tmp);
+
                 }
 
-
             }
+
         }
 
-        // size 정렬
-        Collections.sort(size);
+        Collections.sort(house);
 
-
-        System.out.println(count);
-        for(int i = 0; i<size.size(); i++) {
-            System.out.println(size.get(i));
+        System.out.println(dange);
+        for(int i = 0; i<house.size(); i++) {
+            System.out.println(house.get(i));
         }
 
 
     }//main
 
 
-    static private void dfs(int x, int y) {
+    private static void dfs(int x, int y) {
         check[x][y] = true;
+        tmp++;
 
         for(int i = 0; i<4; i++) {
-            nowX = dirX[i] + x;
-            nowY = dirY[i] + y;
+            nowX = x + dirX[i];
+            nowY = y + dirY[i];
 
-            if (rangeCheck() && !check[nowX][nowY] && arr[nowX][nowY]==1) {
-                tmp++;
+            if(rangeCheck() && !check[nowX][nowY] && arr[nowX][nowY] == 1) {
                 dfs(nowX, nowY);
-
             }
+
         }
 
 
-
     }
 
-    static private boolean rangeCheck() {
-        if(nowX >=0 && nowY >= 0 &&  nowX< N && nowY < N) return true;
+    private static boolean rangeCheck() {
+        if(nowX>=0 && nowY >=0 && nowX <n && nowY <n) return true;
         else return false;
-
     }
 
-}
+}//main class
+
+
+
