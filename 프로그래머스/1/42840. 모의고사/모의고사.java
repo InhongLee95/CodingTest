@@ -2,42 +2,47 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] answers) {
-        int[] first = {1,2,3,4,5};
-        int[] second = {2,1,2,3,2,4,2,5};
-        int[] third = {3,3,1,1,2,2,4,4,5,5};
         int[] score = {0,0,0};
         
-        // 수포자들의 점수 계산
-        for(int i = 0; i < answers.length; i++) {
-            if(answers[i] == first[i%5])  score[0] ++;
-            if(answers[i] == second[i%8]) score[1]++;
-            if(answers[i] == third[i%10]) score[2]++;
-            
+        int[] one = {1, 2, 3, 4, 5};
+        int[] two = {2, 1, 2, 3, 2, 4, 2, 5};
+        int[] three = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+        
+        
+        // 점수 체크
+        for(int i = 0; i< answers.length; i++) {
+            if(answers[i] == one[i%5]) score[0]++;
+            if(answers[i] == two[i%8]) score[1]++;
+            if(answers[i] == three[i%10]) score[2]++;            
         }
         
-        // 최대 점수 구하기
+        
+        // 최고 점수 값 
         int max = Math.max(score[0], Math.max(score[1], score[2]));
         
-        
-        // 최대 점수를 가진 수포자_번호 리스트 생성
-        List<Integer> student = new ArrayList<Integer>();
-        for (int i = 0; i<score.length; i++) {
-            if(max == score[i]) student.add(i+1);              
+        // 최고 점수자 선별
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i = 0; i< score.length; i++) {
+            if(max == score[i]) list.add(i+1);
         }
         
         
-        // 결과값 출력값에 맞게 담음
-        int[] answer = new int[student.size()];
-        for(int i=0; i<student.size(); i++) {
-            answer[i] = student.get(i);
+        // 최다 점수획득자가 2명이상일 경우 수험자 번호 오름차순으로 정렬
+        Collections.sort(list);
+        
+        //최고 점수획득자 타입변환
+        int[] answer = new int[list.size()];
+        
+        for(int i = 0; i<answer.length; i++) {
+            answer[i] = list.get(i);
         }
+        
+        
+        
+        
         
         
         
         return answer;
     }
-    
-    
-    
-    
 }
