@@ -2,42 +2,31 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] arr, int divisor) {
-        List<Integer> result = findDivisibles(arr, divisor, 0, new ArrayList<>());
         
-        if (result.isEmpty()) {
-            return new int[] {-1};
+        ArrayList<Integer> list = new ArrayList<>();
+        
+        // 배열에서 나눠서 0이 되는 값만 리스트에 추가
+        for(int i = 0; i < arr.length; i++) {
+            if(arr[i] % divisor == 0) list.add(arr[i]);
         }
         
-        int[] answer = result.stream().mapToInt(i -> i).toArray();
-        Arrays.sort(answer);
+        
+        int[] answer;
+        
+        // 나누어 떨어지는 값이 없을 경우 -1 배열을 반환
+        if(list.size() == 0) {
+            answer = new int[]{-1};
+        } 
+        else {
+            // 리스트 크기에 맞는 배열을 생성하고 값을 복사
+            answer = new int[list.size()];
+            for(int i = 0; i < list.size(); i++) {
+                answer[i] = list.get(i);
+            }
+            
+            Arrays.sort(answer);
+        }
+        
         return answer;
-    }
-
-    private List<Integer> findDivisibles(int[] arr, int divisor, int index, List<Integer> result) {
-        // Base case: if we have processed all elements in the array
-        if (index == arr.length) {
-            return result;
-        }
-
-        // If the current element is divisible by the divisor, add it to the result list
-        if (arr[index] % divisor == 0) {
-            result.add(arr[index]);
-        }
-
-        // Recursive call to process the next element
-        return findDivisibles(arr, divisor, index + 1, result);
-    }
-
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-        
-        int[] result1 = sol.solution(new int[] {5, 9, 7, 10}, 5);
-        System.out.println(Arrays.toString(result1)); // [5, 10]
-        
-        int[] result2 = sol.solution(new int[] {2, 36, 1, 3}, 1);
-        System.out.println(Arrays.toString(result2)); // [1, 2, 3, 36]
-        
-        int[] result3 = sol.solution(new int[] {3, 2, 6}, 10);
-        System.out.println(Arrays.toString(result3)); // [-1]
     }
 }
