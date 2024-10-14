@@ -1,22 +1,28 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(long n) {
-                
-        String s = String.valueOf(n);
-        StringBuilder sb = new StringBuilder(s);
         
-        sb = sb.reverse();
+        String m  = String.valueOf(n);
         
-        String[] sarr = sb.toString().split("");
+        char[] arr = m.toCharArray();
         
-        int[] answer = new int[sarr.length];
-        for (int i=0; i < sarr.length; i++ ) {
-            answer[i] = Integer.parseInt(sarr[i]);
+        ArrayList<Character> list = new ArrayList<>();
+        for(int i = 0; i<arr.length; i++) {
+            list.add(arr[i]);
         }
         
+        Collections.reverse(list);
+        
+        int[] answer = new int[list.size()];
+        
+        for(int i = 0; i<answer.length; i++) {
+            answer[i] = list.get(i) - '0';
+        }
+        
+        
+        
+        
         return answer;
-        
-        
     }
-    
-    
 }
